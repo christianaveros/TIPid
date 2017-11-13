@@ -1,0 +1,8 @@
+Django==1.11.7
+interleaving==0.0.1
+numpy==1.13.3
+pkg-resources==0.0.0
+PuLP==1.6.8
+pyparsing==2.2.0
+pytz==2017.3
+scipy==1.0.0
