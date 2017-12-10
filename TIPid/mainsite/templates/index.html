@@ -1,3 +1,8 @@
 {% include 'partials/header.html' %}
-	<form action="{% url '' %}" method="post"></form>
+	<form action="{% url 'index' %}" method="POST">
+		{% csrf_token %}
+		{{int}}
+		<input type="number" name="int" value='1' min='0' max='10'>
+		<input type="submit" name="submit"/>
+	</form>
 {% include 'partials/footer.html' %}
