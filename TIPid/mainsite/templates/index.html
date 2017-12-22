@@ -1,8 +1,15 @@
 {% include 'partials/header.html' %}
-	<form action="{% url 'index' %}" method="POST">
-		{% csrf_token %}
-		{{int}}
-		<input type="number" name="int" value='1' min='0' max='10'>
-		<input type="submit" name="submit"/>
-	</form>
+		<div class="container">
+			<div class="form text-center">
+				<form action="/" method="GET" >
+					{% csrf_token %}
+					{{search}}
+					<br>
+					<input type="text" name="search" class="input-group-sm form-control-sm" value='{{search}}'>
+					<br>
+					<br>
+					<button type="submit" class="input-group-sm btn">Search</button>
+				</form>
+			</div>
+		</div>
 {% include 'partials/footer.html' %}
