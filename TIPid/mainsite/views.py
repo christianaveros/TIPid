@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .models import Search_bar
 
 def index(request):
 	content = {
