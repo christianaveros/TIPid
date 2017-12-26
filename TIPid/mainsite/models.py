@@ -1,10 +1,13 @@
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
-class Search_bar(models.Model):
-	search_term = models.SlugField()
+class History(models.Model):
+	history = models.CharField(max_length=200)
+	create_at = models.DateTimeField(default=timezone.now(), blank=True)
+
 
 class Item(models.Model):
-	# var
+	title = models.CharField(max_length=200) # title name of item
+	information = models.TextField() # links. info. specs.
 	def __str__(self):
 		return self.title
