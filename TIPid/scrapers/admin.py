@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+"""
 from scrapers.models import AmazonProductResponses
 
 class AmazonPR(admin.ModelAdmin):
@@ -15,5 +15,5 @@ class AmazonPR(admin.ModelAdmin):
 
 
 admin.site.register(AmazonProductResponses, AmazonPR)
-
+"""
 # Register your models here.
