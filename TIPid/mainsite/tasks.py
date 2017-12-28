@@ -27,7 +27,10 @@ def scrapers(search_term):
 	data = requests.get(url).text
 	soup = BeautifulSoup(data, 'html.parser')
 	jsondata = json.loads(soup.find('script', text=re.compile	(r'window.pageData=')).get_text().replace('window.pageData=', ''))
-	return jsondata
+	item_list = json_data['mods']['listItems']
+	for item in item_list[0:19]:
+		
+	return data
 
 @shared_task
 def scraper_shopee(search_term):
