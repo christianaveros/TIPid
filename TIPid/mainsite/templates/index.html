@@ -1,15 +1,38 @@
-{% include 'partials/header.html' %}
-		<div class="container">
-			<div class="form text-center">
-				<form action="/" method="GET" >
-					{% csrf_token %}
-					{{search}}
-					<br>
-					<input type="text" name="search" class="input-group-sm form-control-sm" value='{{search}}'>
-					<br>
-					<br>
-					<button type="submit" class="input-group-sm btn">Search</button>
-				</form>
+{% extends 'partials/base.html' %}
+
+{% block title %} | Searching {{search}} {% endblock %}
+
+
+{% block content %}
+	<div class="form">
+		<form action="/" method="POST" >
+			{% csrf_token %}
+			<input type="text" id="search" class="input-group-sm form-control-sm" value='{{search}}'>
+			<button type="submit" class="input-group-sm btn" id="submit">Search</button>
+			<br>
+			<br>
+			<div class="row">
+				<!-- E shopping data list goes here -->
 			</div>
-		</div>
-{% include 'partials/footer.html' %}
+		</form>
+	</div>
+{% endblock %}
+
+{% block javascript %}
+	<script>
+		$("#submit").click(function() {
+			search = $("#search").val();
+			$.ajax({
+				url: 'ajax/search/',
+				type, 'POST',
+				content: {
+					'search': search
+				},
+				dataType: 'json',
+				success: function(search) {
+					alert("hello");
+				}
+			});
+		});
+	</script>
+{% endblock %}
