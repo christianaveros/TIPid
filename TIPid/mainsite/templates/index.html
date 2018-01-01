@@ -2,37 +2,50 @@
 
 {% block title %} | Searching {{search}} {% endblock %}
 
+{% block javascript %}
+	<script>
+		function submit_form() {
+			$.ajax({
+				url: "search/",
+				type: "POST",
+				data: { search: $("#search").val() },
+
+				// handle successful response
+				success: function(json) {
+					console.log(json);
+					console.log("success");
+				},
+
+				error: function(xhr, eermsg, err) {
+					$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+          console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+				}
+			});
+		};
+
+		$("#post-form").submit(function(event) {
+			event.preventDefault();
+			console.log("form submitted");
+			submit_form();
+		});
+
+	</script>
+{% endblock %}
 
 {% block content %}
+	<div id="results"></div>>
 	<div class="form">
-		<form action="/" method="POST" >
+		<form method="POST" id="post-form">
 			{% csrf_token %}
 			<input type="text" id="search" class="input-group-sm form-control-sm" value='{{search}}'>
-			<button type="submit" class="input-group-sm btn" id="submit">Search</button>
+			<button type="submit" class="input-group-sm btn">Search</button>
 			<br>
 			<br>
-			<div class="row">
+			<div class="row" id="itemlist">
 				<!-- E shopping data list goes here -->
 			</div>
 		</form>
 	</div>
 {% endblock %}
 
-{% block javascript %}
-	<script>
-		$("#submit").click(function() {
-			search = $("#search").val();
-			$.ajax({
-				url: 'ajax/search/',
-				type, 'POST',
-				content: {
-					'search': search
-				},
-				dataType: 'json',
-				success: function(search) {
-					alert("hello");
-				}
-			});
-		});
-	</script>
-{% endblock %}
