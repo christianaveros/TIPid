@@ -7,8 +7,8 @@
 		<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
 		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-
+		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/examples/starter-template/starter-template.css">
 		<!-- ICON -->
 		<link rel="icon" href="{% static 'favicon.ico' %}">
 
@@ -17,12 +17,12 @@
 
 	</head>
 	<body>
+		<!--
 		<div>
-		<!-- DISPLAY -->
+		
 			<div class="container text-center">
 				<a href="/"><img src="{% static 'favicon.ico' %}" width="180px"></a>
-				{% block content %}
-				{% endblock %}
+				
 			</div>
 			<hr>
 			<div class="container">
@@ -32,8 +32,45 @@
 			</div>
 		</div>
 
-		<!-- JAVASCRIPTS -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		-->
+		
+		
+		<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
+			<!-- ICON -->
+      <a class="navbar-brand" href="/"><img src="{% static 'favicon.ico' %}" width="64px"></a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">TIPid: E-Shopping Deal Decision Support <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <form action="{% url 'search' %}" method="GET" class="form-inline my-2 my-lg-0">
+					{% csrf_token %}
+					<input type="text" name="search_term" class="form-control mr-sm-2" placeholder="Search...">
+					<button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+					<br>
+					<div id="Histories"></div>
+				</form>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="starter-template">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="footer text-center">
+      	<hr>
+        <blockquote>2017-2018. Thesis app/tool: TIPid</blockquote>
+      </div>
+    </div>
+    
+    <!-- JAVASCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 		{% block javascript %}{% endblock %}

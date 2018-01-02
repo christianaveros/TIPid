@@ -1,49 +1,23 @@
 {% extends 'partials/base.html' %}
 
-{% block title %} | Searching {{search}} {% endblock %}
-
-{% block javascript %}
-	<script>
-		function submit_form() {
-			$.ajax({
-				url: "/ajax/search/",
-				data: { 'search': $("#search").val() },
-
-				// handle successful response
-				success: function(data) {
-					console.log(data);
-					console.log("success");
-				},
-				error: function(xhr, eermsg, err) {
-					$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-          console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-				}
-			});
-		};
-
-		$("#post-form").submit(function(event) {
-			event.preventDefault();
-			console.log("form submitted");
-			submit_form();
-		});
-
-	</script>
-{% endblock %}
+{% block title %} | Home page {% endblock %}
 
 {% block content %}
-	<div id="results"></div>>
-	<div class="form">
-		<form method="POST" id="post-form">
-			{% csrf_token %}
-			<input type="text" id="search" class="input-group-sm form-control-sm" value='{{search}}'>
-			<button type="submit" class="input-group-sm btn">Search</button>
-			<br>
-			<br>
-			<div class="row" id="itemlist">
-				<!-- E shopping data list goes here -->
-			</div>
-		</form>
+	<div class="row">
+		<div class="row-header"><h3>History/Recent Searches</h3></div>
+		<hr>
+		<div class="container">
+			<div class="row"></div>
+			<ul>
+				{% for item in history %}
+				<li>
+					Title asdas : {{ item }}
+					{% for data in item %}
+						Content: {{data}}
+					{% endfor %}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}
-

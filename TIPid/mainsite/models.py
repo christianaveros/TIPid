@@ -24,10 +24,10 @@ class ScrapedProduct(models.Model):
 	website = models.CharField(max_length=32, choices=WEBSITES)
 	url = models.URLField()
 	price = models.IntegerField(blank=False)
-	original_price = models.IntegerField()
+	"""original_price = models.IntegerField()"""
 	rating = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
 	reviews = models.IntegerField(blank=False)
-	bayes_est = models.DecimalField(max_digits=2, decimal_places=10, blank=False)
+	bayes_est = models.DecimalField(max_digits=10, decimal_places=10, blank=False)
 
 	def __str__(self):
 		return self.title

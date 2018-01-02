@@ -1,0 +1,10 @@
+{% extends 'partials/base.html' %}
+
+{% block title %} | Searching {{search_term}} {% endblock %}
+
+{% block content %}
+	<div id="results">{{search_term}}</div>
+	<div class="item_list">
+		{{itemlist}}
+	</div>
+{% endblock %}
