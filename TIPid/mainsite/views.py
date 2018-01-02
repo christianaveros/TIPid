@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
+from django.views.generic import View
 from django.http import Http404, HttpResponse, JsonResponse
 from mainsite.tasks import *
 

@@ -92,3 +92,4 @@ def scraper_amazon(search_term):
 
 	return item_list
 
+	"""
