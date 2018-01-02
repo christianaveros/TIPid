@@ -27,7 +27,7 @@ class ScrapedProduct(models.Model):
 	original_price = models.IntegerField()
 	rating = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
 	reviews = models.IntegerField(blank=False)
-	bayes_est = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
+	bayes_est = models.DecimalField(max_digits=2, decimal_places=10, blank=False)
 
 	def __str__(self):
 		return self.title
@@ -37,7 +37,7 @@ class Sample(models.Model):
 	name = models.CharField(max_length=512, blank=False)
 
 	def __str__(self):
-		return self.name
+		return self.name	
 
 
 """

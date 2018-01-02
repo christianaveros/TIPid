@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'scrapers',
     'mainsite',
+    'django_ajax',
 ]
 
 MIDDLEWARE_CLASSES = [

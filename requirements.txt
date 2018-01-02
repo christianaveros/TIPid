@@ -18,6 +18,7 @@ decorator==4.1.2
 Django==1.8
 django-celery-results==1.0.1
 django-dynamic-scraper==0.13.1
+djangoajax==2.4
 docutils==0.11
 enum34==1.1.6
 ez-setup==0.9
