@@ -10,10 +10,11 @@ class IndexView(CreateView):
 	#form_class = UserCreationForm
 
 	def get(self, request, *args, **kwargs):
+		#preset. run an DB query for history
 		context = {
 			'history': {
-				'title': {'ASS': 0},
-				'SSS': {'ASAS': 2}
+				'Blue ring': {'ASS': 0},
+				'Apple iPhone 6s': {'ASAS': 2}
 			}
 		}
 		return render(request, self.template_name, context)
@@ -27,10 +28,14 @@ class SearchView(View):
 			# run APIs here
 			#lazada_itemlist = scraper_lazada.add_async(request.GET.get('search_term', None)).get()
 
+			# run ranking here. 1 - 10
+			# top_list = [{'rank': 1, 'title': 'wtf', 'description': 'wtf, bro', 'link': 'wtf.com'}, ...]
+
 			# packaging
 			context = {
 				'search_term': request.GET.get('search_term', None),
-				'itemlist':{ 'item 1':{'title': 'Who','description': 'What'},'item 2': { 'title': 'Who','description': 'What'}}
+				'toprank_itemlist': [{'title': 'Who','description': 'What'},{ 'title': 'Who','description': 'What'}],
+				'lazada_itemlist': [{'title': 'lazada title 1','description': 'lazada desc 1'},{ 'title': 'lazada title 2','description': 'lazada desc 2'}]
 			}
 		except:
 			raise Http404

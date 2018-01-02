@@ -1,10 +1,68 @@
 {% extends 'partials/base.html' %}
 
-{% block title %} | Searching {{search_term}} {% endblock %}
+{% block title %}| Searching {{search_term}} {% endblock %}
 
 {% block content %}
-	<div id="results">{{search_term}}</div>
-	<div class="item_list">
-		{{itemlist}}
+	<div class="row-header"><h4 class="display-5">Top Results for "{{search_term}}"</h4></div>
+	<div class="row">	
+		<div class="top_results container">
+			<ul>
+				{% for item in toprank_itemlist %}
+					<li>
+						<a href="{{item.link}}">
+							Title: {{item.title}}
+							<br>
+							Description: {{item.description}}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="row-header"><h4 class="display-5">Top Results for "{{search_term}}" in respective OSWs'</h4></div>
+	<hr>
+	<div class="row">
+		<div class="col-md-4">
+			<h5>Lazada</h2>
+			<ul>
+				{% for item in lazada_itemlist %}
+				<li>
+					<a href="{{item.link}}">
+						Title: {{item.title}}
+						<br>
+						Description: {{item.description}}
+					</a>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<h5>Shopee</h2>
+			<ul>
+				{% for item in toprank_itemlist %}
+				<li>
+					<a href="{{item.link}}">
+						Title: {{item.title}}
+						<br>
+						Description: {{item.description}}
+					</a>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<h5>Amazon</h2>
+			<ul>
+				{% for item in lazada_itemlist %}
+				<li>
+					<a href="{{item.link}}">
+						Title: {{item.title}}
+						<br>
+						Description: {{item.description}}
+					</a>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}

@@ -4,39 +4,25 @@
 	<head>
 		<!-- PREREQUISITES -->
 		<meta charset="utf-8">
-		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
 
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/examples/starter-template/starter-template.css">
+		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/examples/jumbotron/jumbotron.css">
+
 		<!-- ICON -->
 		<link rel="icon" href="{% static 'favicon.ico' %}">
 
 		<!-- TITLE -->
-		<title>TIPid{% block title %}{% endblock %}</title>
+		<title>TIPid {% block title %}{% endblock %}</title>
 
 	</head>
 	<body>
-		<!--
-		<div>
-		
-			<div class="container text-center">
-				<a href="/"><img src="{% static 'favicon.ico' %}" width="180px"></a>
-				
-			</div>
-			<hr>
-			<div class="container">
-				<div class="footer">
-					<blockquote>2017-2018. Thesis app/tool: TIPid</blockquote>
-				</div>
-			</div>
-		</div>
-
-		-->
-		
-		
-		<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
-			<!-- ICON -->
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- ICON -->
       <a class="navbar-brand" href="/"><img src="{% static 'favicon.ico' %}" width="64px"></a>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -45,29 +31,29 @@
             <a class="nav-link" href="/">TIPid: E-Shopping Deal Decision Support <span class="sr-only">(current)</span></a>
           </li>
         </ul>
-        <form action="{% url 'search' %}" method="GET" class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="GET">
 					{% csrf_token %}
-					<input type="text" name="search_term" class="form-control mr-sm-2" placeholder="Search...">
-					<button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
-					<br>
-					<div id="Histories"></div>
+					<input class="form-control mr-sm-2" type="text" placeholder="Search..." name="search_term" value="{{search_term}}">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
 				</form>
       </div>
     </nav>
 
     <div class="container">
-      <div class="starter-template">
-        {% block content %}
-        {% endblock %}
-      </div>
-    </div>
-    
-    <div class="container">
-      <div class="footer text-center">
-      	<hr>
-        <blockquote>2017-2018. Thesis app/tool: TIPid</blockquote>
-      </div>
-    </div>
+    	<div class="jumbotron">
+	      <div class="container">
+	        {% block content %}
+	        {% endblock %}
+	      </div>
+    		<hr>
+		    <div class="container">
+		      <div class="center">
+		        <blockquote>2017-2018. Thesis app/tool: TIPid</blockquote>
+		      </div>
+		    </div>
+
+	    </div>
+		</div>
     
     <!-- JAVASCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
