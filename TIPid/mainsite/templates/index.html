@@ -3,16 +3,21 @@
 {% block title %} | Home page {% endblock %}
 
 {% block content %}
-	<div id="results"></div>
-		<div class="form">
-			<form action="{% url 'search' %}" method="GET">
-				{% csrf_token %}
-				<input type="text" name="search_term" class="input-group-sm form-control-sm">
-				<button type="submit" class="input-group-sm btn">Search</button>
-				<br>
-				<div id="Histories"></div>
-			</div>
-		</form>
+	<div class="row">
+		<div class="row-header"><h3>History/Recent Searches</h3></div>
+		<hr>
+		<div class="container">
+			<div class="row"></div>
+			<ul>
+				{% for item in history %}
+				<li>
+					Title asdas : {{ item }}
+					{% for data in item %}
+						Content: {{data}}
+					{% endfor %}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}
-
