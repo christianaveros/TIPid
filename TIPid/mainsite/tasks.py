@@ -8,22 +8,23 @@ import requests
 import re
 from selenium import webdriver
 
+"""
+	
+	DOWNLOAD CHROMEDRIVER, EXTRACT, COPY TO /usr/bin/
+	RUN IN SEPARATE PANE:
+	$ celery -A config worker -l info
+	
+	ADD THESE IN VIEWS.PY
+	from mainsite.tasks import *
+	
+	...
+
+	array = scraper_lazada.add_async(search_term).get() //returns array of dict from osw
+	
+"""
+
 @shared_task
-def add(x, y):
-    return x + y
-
-
-@shared_task
-def mul(x, y):
-    return x * y
-
-
-@shared_task
-def xsum(numbers):
-    return sum(numbers)
-
-@shared_task
-def scrapers(search_term):
+def scraper_lazada(search_term):
 	url = 'https://www.lazada.com.ph/catalog/?q=' + search_term
 	data = requests.get(url).text
 	soup = BeautifulSoup(data, 'html.parser')
@@ -71,9 +72,6 @@ def scraper_shopee(search_term):
 				})
 	return item_list
 
-
-	"""
-
 @shared_task
 def scraper_amazon(search_term):
 	item_list = []
@@ -81,14 +79,23 @@ def scraper_amazon(search_term):
 		browser = webdriver.Chrome()
 		browser.get('https://www.amazon.com/s/field-keywords=' + search_term + '&page=' + str(i))
 		soup = BeautifulSoup(browser.page_source, 'html.parser')
-		items = soup.find_all(class_="s-result-item celwidget ")
-
-		for item in items[2:]:
-			if(item.find(class_=re.compile('s-access-title'))):
-				rating = float(item.find(class_=re.compile('a-icon-star')).text.replace(' out of 5 stars', ''))
-				reviews = float(item.find(href=re.compile('#customerReviews')).text.replace(',', ''))
+		items = soup.find_all(id=re.compile('result_'))
+		for item in items:
+			if((item.find(class_=re.compile('s-access-title'))) and (str(item.find(class_=re.compile('a-offscreen')))!='<span class="a-offscreen">[Sponsored]</span>') and (item.find(class_=re.compile('a-offscreen')) is not None)) :
+				if item.find(href=re.compile('#customerReviews')) is not None:
+					rating = float(item.find(class_=re.compile('a-icon-star')).text.replace(' out of 5 stars', ''))
+					reviews = float(item.find(href=re.compile('#customerReviews')).text.replace(',', ''))
+				else:
+					rating = reviews = 0
+				price = re.sub(r'(\$|,|\s-.*)', '', item.find(class_=re.compile('a-offscreen')).text)
 				bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
-				item_list.append({ 'name': item.find(class_=re.compile('s-access-title')).text, 'website': 'amazon', 'url': item.find(class_=re.compile('s-access-detail-page'))['href'], 'price': float(item.find(class_=re.compile('a-offscreen')).text.replace('$', ''))*50, 'rating': rating, 'reviews': int(reviews), 'bayes_est': bayes_est })
-
+				item_list.append({
+					'name': item.find(class_=re.compile('s-access-title')).text,
+					'website': 'amazon', 
+					'url': item.find(class_=re.compile('s-access-detail-page'))['href'], 
+					'price': float(price)*50,
+					'rating': rating,
+					'reviews': int(reviews),
+					'bayes_est': bayes_est 
+					})
 	return item_list
-
