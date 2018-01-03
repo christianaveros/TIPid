@@ -13,6 +13,25 @@ class ItemsModel(admin.ModelAdmin):
 	)
 
 
+class ScrapedProductModel(admin.ModelAdmin):
+	list_display = (
+	'id',
+	'item',
+	'name',
+	'website',
+	'url',
+	'price',
+	'rating',
+	'reviews',
+	'bayes_est'
+	)
+	search_fields = (
+	'item',
+	'name',
+	'website'
+	)
+
 admin.site.register(Item, ItemsModel)
+admin.site.register(ScrapedProduct, ScrapedProductModel)
 
 # Register your models here.
