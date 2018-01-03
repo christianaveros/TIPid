@@ -7,6 +7,7 @@ import json
 import requests
 import re
 from selenium import webdriver
+from mainsite.models import Item
 
 """
 	
@@ -22,6 +23,21 @@ from selenium import webdriver
 	array = scraper_lazada.add_async(search_term).get() //returns array of dict from osw
 	
 """
+@shared_task
+def scrapers(search_term):
+	item_list = []
+	try:
+		lazada = scraper_lazada(search_term)
+		shopee = scraper_shopee(search_term)
+		amazon = scraper_amazon(search_term)
+		item_list = [item for item in lazada[0:20]]
+		item_list += [item for item in shopee[0:20]]
+		item_list += [item for item in amazon[0:20]]
+		Item.objects.create_item(search_term, item_list)
+	except Exception as e:
+		item_list = [{'Error': 'An error occured:' + str(e)}]
+
+	return item_list
 
 @shared_task
 def scraper_lazada(search_term):
@@ -51,6 +67,7 @@ def scraper_shopee(search_term):
 	browser = webdriver.Chrome()
 	browser.get('https://shopee.ph/search/?is_official_shop=1&keyword=' + search_term + '&page=0')
 	soup = BeautifulSoup(browser.page_source, 'html.parser')
+	browser.close()
 	items = soup.find_all(class_="shopee-search-result-view__item-card")
 	item_list = []
 
@@ -65,7 +82,7 @@ def scraper_shopee(search_term):
 			'name': item.find(class_="shopee-item-card__text-name").text, 
 			'website': 'shopee',
 			'url': item.find(class_="shopee-item-card--link")['href'],
-			'price': float(item.find(class_="shopee-item-card__current-price").text.encode('utf-8').replace('\xe2\x82\xb1','').replace(',','')),
+			'price': float(item.find(class_="shopee-item-card__current-price").text.replace('₱','').replace(',','')),
 			'rating': rating,
 			'reviews': int(reviews),
 			'bayes_est': bayes_est	
@@ -79,6 +96,7 @@ def scraper_amazon(search_term):
 		browser = webdriver.Chrome()
 		browser.get('https://www.amazon.com/s/field-keywords=' + search_term + '&page=' + str(i))
 		soup = BeautifulSoup(browser.page_source, 'html.parser')
+		browser.close()
 		items = soup.find_all(id=re.compile('result_'))
 		for item in items:
 			if((item.find(class_=re.compile('s-access-title'))) and (str(item.find(class_=re.compile('a-offscreen')))!='<span class="a-offscreen">[Sponsored]</span>') and (item.find(class_=re.compile('a-offscreen')) is not None)) :
