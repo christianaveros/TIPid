@@ -1,19 +1,19 @@
-#from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.views.generic import View
 from django.http import Http404, HttpResponse, JsonResponse
 from mainsite.tasks import *
 from django.shortcuts import render
+from mainsite.models import ScrapedProduct, Item
+import interleaving
 
 class IndexView(CreateView):
 	template_name = 'index.html'
-	#form_class = UserCreationForm
 
 	def get(self, request, *args, **kwargs):
-		#preset. run an DB query for history
-		#history_items = ScrapedProducts.objects.get(name=request.GET.get('search_term', None))
+		history_items = Item.objects.all().order_by('-create_at')
+
 		context = {
-			'history_items': [{'title':'youtube', 'website':'youtube.com', 'url':'https://www.youtube.com'}, {'title':'twitter', 'url':'https://www.twitter.com'}]
+			'history_items': history_items
 		}
 		return render(request, self.template_name, context)
 
@@ -50,10 +50,16 @@ class HistoryView(View):
 	def get_context_data(self, request):
 		context = {}
 		try:
-			# db query
+			#db query
+			item_id = request.GET.get('id', None)
+			search_term = request.GET.get('search_term', None)
+			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-price')
+			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
+			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
+			ranked_ordered_items = method.interleave()
 			context = {
-				'search_term': request.GET.get('search_term', None),
-				'history_items': [{'name':'youtube', 'website':'youtube.com', 'url':'https://www.youtube.com'}, {'name':'twitter', 'url':'https://www.twitter.com'}]
+				'search_term': search_term,
+				'result_items': sorted(ranked_ordered_items, key=lambda Item: Item.bayes_est, reverse=True)
 			}
 		except:
 			raise Http404
