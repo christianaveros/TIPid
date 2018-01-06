@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=200)),
-                ('create_at', models.DateTimeField(default=datetime.datetime(2018, 1, 2, 6, 24, 46, 83531, tzinfo=utc), blank=True)),
+                ('create_at', models.DateTimeField(default=datetime.datetime(2018, 1, 3, 12, 33, 6, 938922, tzinfo=utc), blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -35,10 +35,10 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=512)),
                 ('website', models.CharField(max_length=32, choices=[(b'amazon', b'Amazon.com'), (b'lazada', b'Lazada.com.ph'), (b'shopee', b'Shopee.ph')])),
                 ('url', models.URLField()),
-                ('price', models.IntegerField()),
-                ('rating', models.DecimalField(max_digits=10, decimal_places=2)),
+                ('price', models.DecimalField(max_digits=10, decimal_places=2)),
+                ('rating', models.DecimalField(max_digits=10, decimal_places=8)),
                 ('reviews', models.IntegerField()),
-                ('bayes_est', models.DecimalField(max_digits=10, decimal_places=10)),
+                ('bayes_est', models.DecimalField(max_digits=10, decimal_places=8)),
                 ('item', models.ForeignKey(to='mainsite.Item')),
             ],
         ),

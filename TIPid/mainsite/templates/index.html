@@ -2,18 +2,30 @@
 
 {% block title %}| Home page {% endblock %}
 
-{% block content %}
-	<div class="container">
-		<div class="row-header"><h4 class="display-5">History/Recent Searches</h3></div>
-		<div class="container">
-			<div class="row"></div>
+{% block historycontent %}
+<!-- history -->
+<div class="col-md-3">
+	<div class="row">
+		<div class="col-md-4">
+			<h4 class="display-5">History/Recent Searches</h3>
 			<ul>
-				{% for item in history %}
+				{% for item in history_items %}
 				<li>
-					<a href="index/search/?search_term={{item}}">{{item}}</a>
+					<a href="index/history/?search_term={{item.title}}">{{item.url}}</a>
 				</li>
 				{% endfor %}
 			</ul>
 		</div>
 	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-lg-12">
+		<h4 class="display-5">About TIPid</h1>
+		<p>TIPid is an online decision support system that scan and rank products for you according to your search. TIPid currently supports products from the following online shopping websites; Amazon ph, Lazada ph, and Shopee.
+		</p>
+	</div>
+</div>
 {% endblock %}

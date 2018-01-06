@@ -1,0 +1,35 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}| {{search_term}} history {% endblock %}
+
+{% block content %}
+<div class="row">
+	<h4 class="display-5">History Results for "{{search_term}}"</h4>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr class="table_header">
+					<th>Product name</th>
+					<th>Website</th>
+					<th>Url</th>
+					<th>Price</th>
+					<th>Rating</th>
+					<th># of Reviews</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in history_items %}
+				<tr>
+					<td>{{item.name}}</td>
+					<td><a href="{{item.website}}">{{item.website}}</a></td>
+					<td><a href="{{item.url}}">{{item.url}}</a></td>
+					<td>{{item.price}}</td>
+					<td>{{item.rating}}</td>
+					<td>{{item.reviews}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

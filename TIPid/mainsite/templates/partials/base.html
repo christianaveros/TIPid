@@ -5,10 +5,10 @@
 		<!-- PREREQUISITES -->
 		<meta charset="utf-8">
 		<meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="https://v4-alpha.getbootstrap.com/examples/jumbotron/jumbotron.css">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 
 		<!-- ICON -->
 		<link rel="icon" href="{% static 'favicon.ico' %}">
@@ -18,41 +18,39 @@
 
 	</head>
 	<body>
-    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <!-- ICON -->
-      <a class="navbar-brand" href="/"><img src="{% static 'favicon.ico' %}" width="64px"></a>
+		<nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md">
+			<a class="navbar-brand" href="/"><img src="{% static 'favicon.ico' %}"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#containerNavbarCenter" aria-controls="containerNavbarCenter" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-md-center" id="containerNavbarCenter">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="GET">
+							{% csrf_token %}
+							<input class="form-control mr-sm-2" type="text" placeholder="Search..." name="search_term" value="{{search_term}}">
+							<button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">TIPid: E-Shopping Deal Decision Support <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="GET">
-					{% csrf_token %}
-					<input class="form-control mr-sm-2" type="text" placeholder="Search..." name="search_term" value="{{search_term}}">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
-				</form>
-      </div>
-    </nav>
-
-    <div class="container">
-    	<div class="jumbotron">
-	      <div class="container">
-	        {% block content %}
-	        {% endblock %}
-	      </div>
-    		<hr>
-		    <div class="container">
-		      <div class="center">
-		        <blockquote>2017-2018. Thesis app/tool: TIPid</blockquote>
-		      </div>
-		    </div>
-
-	    </div>
+		<div class="container">
+			<div class="jumbotron">
+				<!-- history -->
+				{% block historycontent %}
+				{% endblock %}
+				<div class="col-lg-12">
+					<!-- content -->
+					{% block content %}
+					{% endblock %}
+				</div>
+				<hr>
+				<div class="col-lg-12">
+					<blockquote>2017-2018. Thesis app/tool: TIPid</blockquote>
+				</div>
+			</div>
 		</div>
     
     <!-- JAVASCRIPTS -->
