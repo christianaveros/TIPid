@@ -53,7 +53,7 @@ class HistoryView(View):
 			#db query
 			item_id = request.GET.get('id', None)
 			search_term = request.GET.get('search_term', None)
-			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-price')
+			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('price')
 			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
 			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
 			ranked_ordered_items = method.interleave()
