@@ -33,11 +33,11 @@ def scrapers(search_term):
 		item_list = [item for item in lazada[0:20]]
 		item_list += [item for item in shopee[0:20]]
 		item_list += [item for item in amazon[0:20]]
-		Item.objects.create_item(search_term, item_list)
+		item = Item.objects.create_item(search_term, item_list)
 	except Exception as e:
 		item_list = [{'Error': 'An error occured:' + str(e)}]
 
-	return item_list
+	return item.id
 
 @shared_task
 def scraper_lazada(search_term):
@@ -47,7 +47,7 @@ def scraper_lazada(search_term):
 	jsondata = json.loads(soup.find('script', text=re.compile(r'window.pageData=')).get_text().replace('window.pageData=', ''))
 	items = jsondata['mods']['listItems']
 	item_list = []
-	for item in items[0:19]:
+	for item in items[0:20]:
 		rating = float(item['ratingScore'])
 		reviews = float(item['review'])
 		bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
@@ -67,8 +67,8 @@ def scraper_shopee(search_term):
 	browser = webdriver.Chrome()
 	browser.get('https://shopee.ph/search/?is_official_shop=1&keyword=' + search_term + '&page=0')
 	soup = BeautifulSoup(browser.page_source, 'html.parser')
-	browser.close()
 	items = soup.find_all(class_="shopee-search-result-view__item-card")
+	browser.close()
 	item_list = []
 
 	for item in items:
@@ -81,7 +81,7 @@ def scraper_shopee(search_term):
 		item_list.append({
 			'name': item.find(class_="shopee-item-card__text-name").text, 
 			'website': 'shopee',
-			'url': item.find(class_="shopee-item-card--link")['href'],
+			'url': 'https://shopee.ph' + item.find(class_="shopee-item-card--link")['href'],
 			'price': float(item.find(class_="shopee-item-card__current-price").text.replace('₱','').replace(',','')),
 			'rating': rating,
 			'reviews': int(reviews),

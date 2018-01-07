@@ -30,13 +30,20 @@ class SearchView(View):
 			# top_rank_list = [{'rank': 1, 'title': 'wtf', 'description': 'wtf, bro', 'link': 'wtf.com'}, ...]
 
 			# packaging
+
+
+			search_term = request.GET.get('search_term', None)
+			item_id = scrapers(search_term)
+			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('price')
+			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
+			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
+			ranked_ordered_items = method.interleave()
 			context = {
-				'search_term': request.GET.get('search_term', None),
-				'top_rank_items': [{'name': 'Who','description': 'What'},{ 'name': 'Who','description': 'What'}],
-				'lazada_items': [{'name': 'lazada title 1','description': 'lazada desc 1'},{ 'name': 'lazada title 2','description': 'lazada desc 2'}]
+				'search_term': search_term,
+				'result_items': sorted(ranked_ordered_items, key=lambda Item: Item.bayes_est, reverse=True)
 			}
-		except:
-			raise Http404
+		except Exception as e:
+			raise e
 
 		return context
 
