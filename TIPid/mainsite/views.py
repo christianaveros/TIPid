@@ -10,7 +10,7 @@ class IndexView(CreateView):
 	template_name = 'index.html'
 
 	def get(self, request, *args, **kwargs):
-		history_items = Item.objects.all().order_by('-create_at')
+		history_items = Item.objects.all().order_by('-id').order_by('title')
 
 		context = {
 			'history_items': history_items
@@ -23,24 +23,20 @@ class SearchView(View):
 	def get_context_data(self, request):
 		context = {}
 		try:
-			# run APIs here
-			#lazada_itemlist = scraper_lazada.add_async(request.GET.get('search_term', None)).get()
-
-			# run ranking here. 1 - 10
-			# top_rank_list = [{'rank': 1, 'title': 'wtf', 'description': 'wtf, bro', 'link': 'wtf.com'}, ...]
-
-			# packaging
-
-
 			search_term = request.GET.get('search_term', None)
 			item_id = scrapers(search_term)
 			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('price')
 			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
+			bayes_est_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-bayes_est')
 			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
 			ranked_ordered_items = method.interleave()
+
+			# packaging
 			context = {
 				'search_term': search_term,
-				'result_items': sorted(ranked_ordered_items, key=lambda Item: Item.bayes_est, reverse=True)
+				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
+				'top_price_result_items': price_ordered_items[:10],
+				'top_bayes_est_result_items': bayes_est_ordered_items[:10]
 			}
 		except Exception as e:
 			raise e
