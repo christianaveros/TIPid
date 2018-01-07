@@ -4,28 +4,94 @@
 
 {% block content %}
 <div class="row">
-	<h4 class="display-5">History Results for "{{search_term}}"</h4>
+	<h4 class="display-5">Top 10 Results for "{{search_term}}"</h4>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
 				<tr class="table_header">
 					<th>Product name</th>
 					<th>Website</th>
-					<th>Url</th>
 					<th>Price</th>
 					<th>Rating</th>
 					<th># of Reviews</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for item in result_items %}
+				{% for item in top_10_result_items %}
 				<tr>
-					<td>{{item.name}}</td>
-					<td><a href="{{item.url}}">{{item.website}}</a></td>
-					<td><a href="{{item.url}}">{{item.url}}</a></td>
+					<td><a href="{{item.url}}">{{item.name}}</a></td>
+					<td>{{item.website}}</td>
 					<td>{{item.price}}</td>
-					<td>{{item.bayes_est | floatformat:2}}</td>
+					<td>{{item.bayes_est|floatformat:2}}</td>
 					<td>{{item.reviews}}</td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="6">No product retrieved. Come back later. Sorry for the Inconvience.</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<h4 class="display-5">Top 10 Cheapest results for "{{search_term}}"</h4>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr class="table_header">
+					<th>Product name</th>
+					<th>Website</th>
+					<th>Price</th>
+					<th>Rating</th>
+					<th># of Reviews</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in top_price_result_items %}
+				<tr>
+					<td><a href="{{item.url}}">{{item.name}}</a></td>
+					<td>{{item.website}}</td>
+					<td>{{item.price}}</td>
+					<td>{{item.bayes_est|floatformat:2}}</td>
+					<td>{{item.reviews}}</td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="6">No product retrieved. Come back later. Sorry for the Inconvience.</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<h4 class="display-5">Top 10 Rated results for "{{search_term}}"</h4>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr class="table_header">
+					<th>Product name</th>
+					<th>Website</th>
+					<th>Price</th>
+					<th>Rating</th>
+					<th># of Reviews</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in top_bayes_est_result_items %}
+				<tr>
+					<td><a href="{{item.url}}">{{item.name}}</a></td>
+					<td>{{item.website}}</td>
+					<td>{{item.price}}</td>
+					<td>{{item.bayes_est|floatformat:2}}</td>
+					<td>{{item.reviews}}</td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="6">No product retrieved. Come back later. Sorry for the Inconvience.</td>
 				</tr>
 				{% endfor %}
 			</tbody>
