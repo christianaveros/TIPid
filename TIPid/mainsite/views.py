@@ -60,13 +60,20 @@ class HistoryView(View):
 			#db query
 			item_id = request.GET.get('id', None)
 			search_term = request.GET.get('search_term', None)
+
+			#top rank
 			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('price')
 			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
+			bayes_est_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-bayes_est')
 			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
 			ranked_ordered_items = method.interleave()
+
+			#packaging
 			context = {
 				'search_term': search_term,
-				'result_items': sorted(ranked_ordered_items, key=lambda Item: Item.bayes_est, reverse=True)
+				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
+				'top_price_result_items': price_ordered_items[:10],
+				'top_bayes_est_result_items': bayes_est_ordered_items[:10]
 			}
 		except:
 			raise Http404
