@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'scrapers',
     'mainsite',
     'django_ajax',
+    'mpld3'
 ]
 
 MIDDLEWARE_CLASSES = [
