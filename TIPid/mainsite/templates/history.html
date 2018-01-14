@@ -4,6 +4,9 @@
 
 {% block content %}
 <div class="row">
+	{{ figure|safe }}
+</div>
+<div class="row">
 	<h4 class="display-5">Top 10 Results for "{{search_term}}"</h4>
 	<div class="table-responsive">
 		<table class="table table-striped">

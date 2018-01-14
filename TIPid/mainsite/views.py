@@ -5,6 +5,7 @@ from mainsite.tasks import *
 from django.shortcuts import render
 from mainsite.models import ScrapedProduct, Item
 import interleaving
+import mpld3
 
 class IndexView(CreateView):
 	template_name = 'index.html'
@@ -68,13 +69,19 @@ class HistoryView(View):
 			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
 			ranked_ordered_items = method.interleave()
 
+			fig, ax = plt.subplots()
+			ax.scatter([1, 10], [5, 9])
+			html_graph = mpld3.fig_to_html(fig)
+
 			#packaging
 			context = {
 				'search_term': search_term,
 				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
 				'top_price_result_items': price_ordered_items[:10],
-				'top_bayes_est_result_items': bayes_est_ordered_items[:10]
+				'top_bayes_est_result_items': bayes_est_ordered_items[:10],
+				'figure': html_graph
 			}
+
 		except:
 			raise Http404
 
