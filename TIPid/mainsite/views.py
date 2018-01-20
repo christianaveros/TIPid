@@ -9,6 +9,7 @@ import interleaving
 import matplotlib.pyplot as plt
 import mpld3
 import numpy as np
+import json
 
 class IndexView(CreateView):
 	template_name = 'index.html'
@@ -44,6 +45,8 @@ class SearchView(View):
 			mpld3.plugins.connect(fig, tooltip)
 
 			html_graph = mpld3.fig_to_html(fig)
+
+			plt.close()
 
 			# packaging
 			context = {
@@ -87,6 +90,16 @@ class HistoryView(View):
 			mpld3.plugins.connect(fig, tooltip)
 
 			html_graph = mpld3.fig_to_html(fig)
+
+			"""
+			chart = dict()
+			chart['id'] = "fig_01"
+			chart['json'] = json.dumps(mpld3.fig_to_dict(fig))
+			result= {'single_chart': single_chart}
+			"""
+
+			plt.close()
+
 
 			#packaging
 			context = {

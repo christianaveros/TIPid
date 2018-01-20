@@ -3,9 +3,24 @@
 {% block title %}| {{search_term}} history {% endblock %}
 
 {% block content %}
+
 <div class="row">
 	{{ figure|safe }}
 </div>
+
+<!--
+
+<div id="{{single_chart.id}}">
+</div>
+
+<script type="text/javascript">
+	var figureId = "{{single_chart.id}}";
+	var json01 = {{single_chart.json|safe}};
+	mpld3.draw_figure(figureId, json01);
+</script>
+-->
+
+
 <div class="row">
 	<h4 class="display-5">Top 10 Results for "{{search_term}}"</h4>
 	<div class="table-responsive">
