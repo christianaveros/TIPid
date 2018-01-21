@@ -5,7 +5,11 @@
 {% block content %}
 
 <div class="row">
-	{{ figure|safe }}
+	{% if figure != None %}
+		{{ figure|safe }}
+	{% else %}
+		Scatter plot graph is not available. Are you connected to the internet?
+	{% endif %}
 </div>
 
 <!--

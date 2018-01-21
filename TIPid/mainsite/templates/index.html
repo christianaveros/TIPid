@@ -12,10 +12,15 @@
 				<li>
 					<a href="index/history/?id={{item.id}}&search_term={{item.title}}">{{item.title}}</a>
 				</li>
+				{% empty %}
+				<li>
+					No history retrieved. Must be new here.
+				</li>
 				{% endfor %}
 			</ul>
 	</div>
 </div>
+<hr>
 {% endblock %}
 
 {% block content %}
@@ -24,6 +29,8 @@
 		<h4 class="display-5">About TIPid</h1>
 		<p>TIPid is an online decision support system that scan and rank products for you according to your search. TIPid currently supports products from the following online shopping websites; Amazon, Lazada and Shopee.
 		</p>
+		<br>
+		<p>One of the factors in searching for a 'TIPid' product are price, ratings, and reviews. Of course, the lower the price saves a few money but considering durability and assured quality, you should take ratings and reviews into consideration. TIPid will bring you 3 types of ranked lists according to your prefered characteristics; by cheapest, by most reviewed, and by the combination of the former two.</p>
 	</div>
 </div>
 {% endblock %}
