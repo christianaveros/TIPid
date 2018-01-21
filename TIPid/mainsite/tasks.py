@@ -74,25 +74,23 @@ def scraper_shopee(search_term):
 	item_list = []
 
 	for item in items:
+		# price = float(item.find(class_="shopee-item-card__current-price").text.replace('₱','').replace(',',''))
+		rating = float(len(item.find_all(class_="shopee-rating-stars__lit", style=re.compile('100%'))))
+		price = re.sub(r'(\₱|,|\s-.*)', '', item.find(class_="shopee-item-card__current-price").text)
 		try:
-			price = float(item.find(class_="shopee-item-card__current-price").text.replace('₱','').replace(',',''))
-			rating = float(len(item.find_all(class_="shopee-rating-stars__lit", style=re.compile('100%'))))
-			try:
-				reviews = float(item.find(class_="shopee-item-card__btn-ratings-count").text.replace('(', '').replace(')', ''))
-			except ValueError:
-				reviews = 0
-			bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
-			item_list.append({
-				'name': item.find(class_="shopee-item-card__text-name").text, 
-				'website': 'shopee',
-				'url': 'https://shopee.ph' + item.find(class_="shopee-item-card--link")['href'],
-				'price': price,
-				'rating': rating,
-				'reviews': int(reviews),
-				'bayes_est': bayes_est	
-					})
-		except Exception as e:
-			pass
+			reviews = float(item.find(class_="shopee-item-card__btn-ratings-count").text.replace('(', '').replace(')', ''))
+		except ValueError:
+			reviews = 0
+		bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
+		item_list.append({
+			'name': item.find(class_="shopee-item-card__text-name").text, 
+			'website': 'shopee',
+			'url': 'https://shopee.ph' + item.find(class_="shopee-item-card--link")['href'],
+			'price': float(price),
+			'rating': rating,
+			'reviews': int(reviews),
+			'bayes_est': bayes_est	
+				})
 	return item_list
 
 @shared_task
