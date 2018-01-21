@@ -15,7 +15,7 @@ class IndexView(CreateView):
 	template_name = 'index.html'
 
 	def get(self, request, *args, **kwargs):
-		history_items = Item.objects.all().order_by('-id').order_by('title')
+		history_items = Item.objects.all().order_by('-id')
 
 		context = {
 			'history_items': history_items
