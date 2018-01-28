@@ -41,14 +41,19 @@ class SearchView(View):
 			# plotting
 			fig, ax = plt.subplots()
 
-			for item in price_ordered_items:
+			for index, item in enumerate(ranked_ordered_items):
 				if (item.website=='amazon'):
 					color = 'red'
 				elif (item.website=='lazada'):
 					color = 'blue'
 				elif (item.website=='shopee'):
 					color = 'green'
-				scatter = ax.scatter(item.price, item.bayes_est, c=color, label=str(item.website))
+				
+				if index < 10:
+					alpha = 1
+				else:
+					alpha = 0.3
+				scatter = ax.scatter(item.price, item.bayes_est, c=color, alpha=alpha, edgecolors='none')
 				labels = [(item.name[0:30] + '...' + '(PHP' + str(item.price) + ')')]
 				tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
 				mpld3.plugins.connect(fig, tooltip)
@@ -97,15 +102,20 @@ class HistoryView(View):
 
 			# plotting
 			fig, ax = plt.subplots()
-
-			for item in price_ordered_items:
+			for index, item in enumerate(ranked_ordered_items):
+				
 				if (item.website=='amazon'):
 					color = 'red'
 				elif (item.website=='lazada'):
 					color = 'blue'
 				elif (item.website=='shopee'):
 					color = 'green'
-				scatter = ax.scatter(item.price, item.bayes_est, c=color, label=str(item.website))
+				
+				if index < 10:
+					alpha = 1
+				else:
+					alpha = 0.3
+				scatter = ax.scatter(item.price, item.bayes_est, c=color, alpha=alpha, edgecolors='none')
 				labels = [(item.name[0:30] + '...' + '(PHP' + str(item.price) + ')')]
 				tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
 				mpld3.plugins.connect(fig, tooltip)
