@@ -6,6 +6,7 @@ from mainsite.tasks import *
 from django.shortcuts import render
 from mainsite.models import ScrapedProduct, Item
 import interleaving
+import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import mpld3
 import numpy as np
@@ -39,12 +40,24 @@ class SearchView(View):
 
 			# plotting
 			fig, ax = plt.subplots()
-			scatter = ax.scatter([item.price for item in price_ordered_items], [item.bayes_est for item in price_ordered_items])
-			labels = [item.name[0:30] + '...' + '(PHP' + str(item.price) + ')' for item in price_ordered_items]
-			tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
-			mpld3.plugins.connect(fig, tooltip)
 
+			for item in price_ordered_items:
+				if (item.website=='amazon'):
+					color = 'red'
+				elif (item.website=='lazada'):
+					color = 'blue'
+				elif (item.website=='shopee'):
+					color = 'green'
+				scatter = ax.scatter(item.price, item.bayes_est, c=color, label=str(item.website))
+				labels = [(item.name[0:30] + '...' + '(PHP' + str(item.price) + ')')]
+				tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
+				mpld3.plugins.connect(fig, tooltip)
+			red_patch = mpatches.Patch(color='red', label='Amazon')
+			blue_patch = mpatches.Patch(color='blue', label='Lazada')
+			green_patch = mpatches.Patch(color='green', label='Shopee')
+			ax.legend(handles=[red_patch, blue_patch, green_patch])
 			html_graph = mpld3.fig_to_html(fig)
+
 
 			plt.close()
 
@@ -84,12 +97,24 @@ class HistoryView(View):
 
 			# plotting
 			fig, ax = plt.subplots()
-			scatter = ax.scatter([item.price for item in price_ordered_items], [item.bayes_est for item in price_ordered_items])
-			labels = [item.name[0:30] + '...' + '(PHP' + str(item.price) + ')' for item in price_ordered_items]
-			tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
-			mpld3.plugins.connect(fig, tooltip)
 
+			for item in price_ordered_items:
+				if (item.website=='amazon'):
+					color = 'red'
+				elif (item.website=='lazada'):
+					color = 'blue'
+				elif (item.website=='shopee'):
+					color = 'green'
+				scatter = ax.scatter(item.price, item.bayes_est, c=color, label=str(item.website))
+				labels = [(item.name[0:30] + '...' + '(PHP' + str(item.price) + ')')]
+				tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
+				mpld3.plugins.connect(fig, tooltip)
+			red_patch = mpatches.Patch(color='red', label='Amazon')
+			blue_patch = mpatches.Patch(color='blue', label='Lazada')
+			green_patch = mpatches.Patch(color='green', label='Shopee')
+			ax.legend(handles=[red_patch, blue_patch, green_patch])
 			html_graph = mpld3.fig_to_html(fig)
+
 
 			"""
 			chart = dict()
