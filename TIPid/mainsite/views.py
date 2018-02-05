@@ -69,7 +69,7 @@ class SearchView(View):
 			# packaging
 			context = {
 				'search_term': search_term,
-				'top_10_result_items': ranked_ordered_items[:10],
+				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
 				'top_price_result_items': price_ordered_items[:10],
 				'top_bayes_est_result_items': bayes_est_ordered_items[:10],
 				'figure': html_graph
@@ -139,7 +139,7 @@ class HistoryView(View):
 			#packaging
 			context = {
 				'search_term': search_term,
-				'top_10_result_items': ranked_ordered_items[:10],
+				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
 				'top_price_result_items': price_ordered_items[:10],
 				'top_bayes_est_result_items': bayes_est_ordered_items[:10],
 				'figure': html_graph

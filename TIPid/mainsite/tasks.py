@@ -52,7 +52,7 @@ def scraper_lazada(search_term):
 	for item in items[0:20]:
 		rating = float(item['ratingScore'])
 		reviews = float(item['review'])
-		bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
+		bayes_est = (20 * 3 + rating * reviews)/(20 + reviews)
 		item_list.append({
 			'name': item['name'], 
 			'website': 'lazada',
@@ -81,7 +81,7 @@ def scraper_shopee(search_term):
 			reviews = float(item.find(class_="shopee-item-card__btn-ratings-count").text.replace('(', '').replace(')', ''))
 		except ValueError:
 			reviews = 0
-		bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
+		bayes_est = (20 * 3 + rating * reviews)/(20 + reviews)
 		item_list.append({
 			'name': item.find(class_="shopee-item-card__text-name").text, 
 			'website': 'shopee',
@@ -110,7 +110,7 @@ def scraper_amazon(search_term):
 				else:
 					rating = reviews = 0
 				price = re.sub(r'(\$|,|\s-.*)', '', item.find(class_=re.compile('a-offscreen')).text)
-				bayes_est = (5 * 3 + rating * reviews)/(5 + reviews)
+				bayes_est = (20 * 3 + rating * reviews)/(20 + reviews)
 				item_list.append({
 					'name': item.find(class_=re.compile('s-access-title')).text,
 					'website': 'amazon', 
