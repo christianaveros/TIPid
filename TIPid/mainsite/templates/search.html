@@ -4,10 +4,7 @@
 
 {% block content %}
 <div class="row">
-	{{ figure|safe }}
-</div>
-<div class="row">
-	<h4 class="display-5">Top 10 Results for "{{search_term}}"</h4>
+	<h4 class="display-5">Top 10 Products based on Price and Reviews for "{{search_term}}"</h4>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
@@ -39,7 +36,7 @@
 </div>
 <hr>
 <div class="row">
-	<h4 class="display-5">Top 10 Cheapest results for "{{search_term}}"</h4>
+	<h4 class="display-5">Top 10 Products based on Price for "{{search_term}}"</h4>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
@@ -71,7 +68,7 @@
 </div>
 <hr>
 <div class="row">
-	<h4 class="display-5">Top 10 Rated results for "{{search_term}}"</h4>
+	<h4 class="display-5">Top 10 Products based on Customers Reviews for "{{search_term}}"</h4>
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
@@ -100,5 +97,8 @@
 			</tbody>
 		</table>
 	</div>
+</div>
+<div class="row">
+	{{ figure|safe }}
 </div>
 {% endblock %}

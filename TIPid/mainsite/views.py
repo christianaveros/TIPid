@@ -54,7 +54,7 @@ class SearchView(View):
 				else:
 					alpha = 0.3
 				scatter = ax.scatter(item.price, item.bayes_est, c=color, alpha=alpha, edgecolors='none')
-				labels = [(item.name[0:30] + '...' + '(PHP' + str(item.price) + ')')]
+				labels = [str(index+1) + '.) ' + (item.name[0:20] + '...' + '(PHP' + str(item.price) + ')')]
 				tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
 				mpld3.plugins.connect(fig, tooltip)
 			red_patch = mpatches.Patch(color='red', label='Amazon')
@@ -69,7 +69,7 @@ class SearchView(View):
 			# packaging
 			context = {
 				'search_term': search_term,
-				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
+				'top_10_result_items': ranked_ordered_items[:10],
 				'top_price_result_items': price_ordered_items[:10],
 				'top_bayes_est_result_items': bayes_est_ordered_items[:10],
 				'figure': html_graph
@@ -116,7 +116,7 @@ class HistoryView(View):
 				else:
 					alpha = 0.3
 				scatter = ax.scatter(item.price, item.bayes_est, c=color, alpha=alpha, edgecolors='none')
-				labels = [(item.name[0:30] + '...' + '(PHP' + str(item.price) + ')')]
+				labels = [str(index+1) + '.) ' + (item.name[0:20] + '...' + '(PHP' + str(item.price) + ')')]
 				tooltip = mpld3.plugins.PointLabelTooltip(scatter, labels=labels)
 				mpld3.plugins.connect(fig, tooltip)
 			red_patch = mpatches.Patch(color='red', label='Amazon')
@@ -139,7 +139,7 @@ class HistoryView(View):
 			#packaging
 			context = {
 				'search_term': search_term,
-				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
+				'top_10_result_items': ranked_ordered_items[:10],
 				'top_price_result_items': price_ordered_items[:10],
 				'top_bayes_est_result_items': bayes_est_ordered_items[:10],
 				'figure': html_graph
