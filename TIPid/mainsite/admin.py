@@ -23,7 +23,9 @@ class ScrapedProductModel(admin.ModelAdmin):
 	'price',
 	'rating',
 	'reviews',
-	'bayes_est'
+	'bayes_est',
+	'ranking',
+	'imageurl'
 	)
 	search_fields = (
 	'item',

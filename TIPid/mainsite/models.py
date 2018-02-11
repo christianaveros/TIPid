@@ -27,6 +27,8 @@ class ScrapedProduct(models.Model):
 	rating = models.DecimalField(max_digits=10, decimal_places=8, blank=False)
 	reviews = models.IntegerField(blank=False)
 	bayes_est = models.DecimalField(max_digits=10, decimal_places=8, blank=False)
+	ranking = models.IntegerField(null=True)
+	imageurl = models.URLField()
 
 	def __str__(self):
 		return self.name

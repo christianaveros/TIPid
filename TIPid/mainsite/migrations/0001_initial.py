@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=200)),
-                ('create_at', models.DateTimeField(default=datetime.datetime(2018, 1, 3, 12, 33, 6, 938922, tzinfo=utc), blank=True)),
+                ('create_at', models.DateTimeField(default=datetime.datetime(2018, 2, 10, 13, 16, 40, 426670, tzinfo=utc), blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -39,6 +39,8 @@ class Migration(migrations.Migration):
                 ('rating', models.DecimalField(max_digits=10, decimal_places=8)),
                 ('reviews', models.IntegerField()),
                 ('bayes_est', models.DecimalField(max_digits=10, decimal_places=8)),
+                ('ranking', models.IntegerField(blank=True)),
+                ('imageurl', models.URLField()),
                 ('item', models.ForeignKey(to='mainsite.Item')),
             ],
         ),

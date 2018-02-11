@@ -60,7 +60,8 @@ def scraper_lazada(search_term):
 			'price': item['price'],
 			'rating': rating,
 			'reviews': int(reviews),
-			'bayes_est': bayes_est
+			'bayes_est': bayes_est,
+			'imageurl': item['image']
 			})
 	return item_list
 
@@ -68,6 +69,8 @@ def scraper_lazada(search_term):
 def scraper_shopee(search_term):
 	browser = webdriver.Chrome()
 	browser.get('https://shopee.ph/search/?is_official_shop=1&keyword=' + search_term + '&page=0')
+	browser.execute_script("window.scrollTo(0, 1080)")
+	browser.execute_script("window.scrollTo(0, 2160)") 
 	soup = BeautifulSoup(browser.page_source, 'html.parser')
 	items = soup.find_all(class_="shopee-search-result-view__item-card")
 	browser.close()
@@ -77,6 +80,11 @@ def scraper_shopee(search_term):
 		# price = float(item.find(class_="shopee-item-card__current-price").text.replace('₱','').replace(',',''))
 		rating = float(len(item.find_all(class_="shopee-rating-stars__lit", style=re.compile('100%'))))
 		price = re.sub(r'(\₱|,|\s-.*)', '', item.find(class_="shopee-item-card__current-price").text)
+		imageurl = item.find(class_="lazy-image__image").get('style')
+		if imageurl is not None:
+			imageurl = imageurl.replace('background-image: url("', '').replace('");', '')
+		else:
+			imageurl = 'http://tutaki.org.nz/wp-content/uploads/2016/04/no-image-available.png'
 		try:
 			reviews = float(item.find(class_="shopee-item-card__btn-ratings-count").text.replace('(', '').replace(')', ''))
 		except ValueError:
@@ -89,8 +97,9 @@ def scraper_shopee(search_term):
 			'price': float(price),
 			'rating': rating,
 			'reviews': int(reviews),
-			'bayes_est': bayes_est	
-				})
+			'bayes_est': bayes_est,
+			'imageurl': imageurl
+			})
 	return item_list
 
 @shared_task
@@ -118,6 +127,7 @@ def scraper_amazon(search_term):
 					'price': float(price)*50,
 					'rating': rating,
 					'reviews': int(reviews),
-					'bayes_est': bayes_est 
+					'bayes_est': bayes_est,
+					'imageurl': item.find('img').get('src')
 					})
 	return item_list

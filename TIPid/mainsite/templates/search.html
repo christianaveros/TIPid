@@ -5,100 +5,67 @@
 {% block content %}
 <div class="row">
 	<h4 class="display-5">Top 10 Products based on Price and Reviews for "{{search_term}}"</h4>
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-				<tr class="table_header">
-					<th>Product name</th>
-					<th>Website</th>
-					<th>Price (PHP)</th>
-					<th>Customer Review</th>
-					<th># of Reviews</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for item in top_10_result_items %}
-				<tr>
-					<td><a href="{{item.url}}">{{item.name}}</a></td>
-					<td>{{item.website}}</td>
-					<td>{{item.price}}</td>
-					<td>{{item.bayes_est|floatformat:2}}</td>
-					<td>{{item.reviews}}</td>
-				</tr>
-				{% empty %}
-				<tr>
-					<td colspan="6">No product retrieved. Come back later. Sorry for the Inconvience.</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+	<div class="row">
+		{% for item in top_10_result_items %}
+		<div class="col-md-3 col-sm-6 col-xs-6">
+			<div class="card mb-4 box-shadow" style="margin-top: 1rem; margin-bottom: 0rem !important;">
+            <div style="position: relative;">
+            <img class="card-img-top" src="{{item.imageurl}}" alt="image" style="width:15.5em;height: 15.5em">
+            {% load static %}
+            {% if item.website == 'lazada' %}
+            	<img src="{% static 'images/lazada.png' %}" alt="{{item.website}}" style="position: absolute; top: 3px; right: 3px; width: 3.5rem; height: 3.5rem">
+            {% elif item.website == 'amazon' %}
+            	<img src="{% static 'images/amazon.png' %}" alt="{{item.website}}" style="position: absolute; top: 3px; right: 3px; width: 3.5rem; height: 3.5rem">
+            {% elif item.website == 'shopee' %}
+            	<img src="{% static 'images/shopee.png' %}" alt="{{item.website}}" style="position: absolute; top: 3px; right: 3px; width: 3.5rem; height: 3.5rem">
+            {% endif %}
+       		</div>
+            <div class="card-body" style="padding: 2px">
+              <a href="{{item.url}}"><span class="card-text" style="font-size: 15px">{{item.name|truncatechars:50}}</span></a>
+              <h5 class="card-text" style="margin-bottom: 0.3rem; margin-top: 0.3rem;">₱ {{item.price}}</h5>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                <div class="star-ratings" style="position: relative; width: 100%; height: 25px">
+                	{% load compute_rating %}
+                	<div class="star-ratings-top" style="color:yellow;width: {{item.bayes_est|compute_rating}}%;overflow:  hidden;position: absolute;white-space:  nowrap;">
+                	{% for i in 'aaaaa' %} <i class="fas fa-star"></i> {% endfor %}
+                	</div> 
+                	<div class="star-ratings-bottom">
+                	{% for i in 'aaaaa' %} <i class="fas fa-star"></i> {% endfor %} <span>({{item.reviews}})</span>
+                	</div>    
+                	 	
+                </div>
+                
+            	</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
 	</div>
 </div>
 <hr>
 <div class="row">
 	<h4 class="display-5">Top 10 Products based on Price for "{{search_term}}"</h4>
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-				<tr class="table_header">
-					<th>Product name</th>
-					<th>Website</th>
-					<th>Price (PHP)</th>
-					<th>Customer Review</th>
-					<th># of Reviews</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for item in top_price_result_items %}
-				<tr>
-					<td><a href="{{item.url}}">{{item.name}}</a></td>
-					<td>{{item.website}}</td>
-					<td>{{item.price}}</td>
-					<td>{{item.bayes_est|floatformat:2}}</td>
-					<td>{{item.reviews}}</td>
-				</tr>
-				{% empty %}
-				<tr>
-					<td colspan="6">No product retrieved. Come back later. Sorry for the Inconvience.</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+	<div class="row">
+		{% for item in top_price_result_items %}
+			{% include 'partials/product_card.html' %}
+		{% endfor %}
 	</div>
 </div>
 <hr>
 <div class="row">
 	<h4 class="display-5">Top 10 Products based on Customers Reviews for "{{search_term}}"</h4>
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-				<tr class="table_header">
-					<th>Product name</th>
-					<th>Website</th>
-					<th>Price (PHP)</th>
-					<th>Customer Review</th>
-					<th># of Reviews</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for item in top_bayes_est_result_items %}
-				<tr>
-					<td><a href="{{item.url}}">{{item.name}}</a></td>
-					<td>{{item.website}}</td>
-					<td>{{item.price}}</td>
-					<td>{{item.bayes_est|floatformat:2}}</td>
-					<td>{{item.reviews}}</td>
-				</tr>
-				{% empty %}
-				<tr>
-					<td colspan="6">No product retrieved. Come back later. Sorry for the Inconvience.</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+	<div class="row">
+		{% for item in top_bayes_est_result_items %}
+			{% include 'partials/product_card.html' %}
+		{% endfor %}
 	</div>
 </div>
+<!--
 <div class="row">
 	{{ figure|safe }}
 </div>
+-->
 {% endblock %}

@@ -4,21 +4,61 @@
 
 {% block historycontent %}
 <!-- history -->
+
 <div class="col-lg-12">
-	<h4 class="display-5">Recent Searches</h4>
-	<div class="row">
-			<ul>
-				{% for item in history_items %}
-				<li>
-					<a href="index/history/?id={{item.id}}&search_term={{item.title}}">{{item.title}}</a>
-				</li>
-				{% empty %}
-				<li>
-					No history retrieved. Must be new here.
-				</li>
-				{% endfor %}
-			</ul>
-	</div>
+	<h3 class="display-5"><i class="far fa-clock"></i> Recent Searches</h3>
+	<br>
+		{% for item in history_items %}
+		<h4><a href="index/history/?id={{item.history_item.id}}&search_term={{item.history_item.title}}">{{item.history_item.title}}</a></h4>
+		
+			<div class="row flex-nowrap" style="overflow-x: scroll;">
+				{% for i in item.products %}
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="card mb-4 box-shadow" style="margin-bottom: 0rem !important;">
+	                <div style="position: relative;">
+	                <img class="card-img-top" src="{{i.imageurl}}" alt="image">
+	                {% load static %}
+	                {% if i.website == 'lazada' %}
+	                	<img src="{% static 'images/lazada.png' %}" alt="{{i.website}}" style="position: absolute; top: 3px; right: 3px; width: 3.5rem; height: 3.5rem">
+	                {% elif i.website == 'amazon' %}
+	                	<img src="{% static 'images/amazon.png' %}" alt="{{i.website}}" style="position: absolute; top: 3px; right: 3px; width: 3.5rem; height: 3.5rem">
+	                {% elif i.website == 'shopee' %}
+	                	<img src="{% static 'images/shopee.png' %}" alt="{{i.website}}" style="position: absolute; top: 3px; right: 3px; width: 3.5rem; height: 3.5rem">
+	                {% endif %}
+	           		</div>
+	                <div class="card-body" style="padding: 2px">
+	                  <a href="{{i.url}}"><span class="card-text" style="font-size: 15px">{{i.name|truncatechars:58}}</span></a>
+	                  <h5 class="card-text" style="margin-bottom: 0.3rem; margin-top: 0.3rem;">₱ {{i.price}}</h5>
+	                  <div class="d-flex justify-content-between align-items-center">
+	                    <div>
+	                    <div class="star-ratings" style="position: relative; width: 100%; height: 25px">
+	                    	{% load compute_rating %}
+	                    	<div class="star-ratings-top" style="color:yellow;width: {{i.bayes_est|compute_rating}}%;overflow:  hidden;position: absolute;white-space:  nowrap;">
+	                    	{% for i in 'aaaaa' %} <i class="fas fa-star"></i> {% endfor %}
+	                    	</div> 
+	                    	<div class="star-ratings-bottom">
+	                    	{% for i in 'aaaaa' %} <i class="fas fa-star"></i> {% endfor %} <span>({{i.reviews}})</span>
+	                    	</div>    
+	                    	 	
+	                    </div>
+	                    
+	                	</div>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+
+	            {% endfor %}
+	            <div class="col-md-3 col-sm-6 col-xs-6" style="margin: auto;">
+	                  <a href="index/history/?id={{item.history_item.id}}&search_term={{item.history_item.title}}">See more &raquo;</a>
+
+	            </div>
+	        </div>
+	        <br>
+		{% empty %}
+			No history retrieved. Must be new here.
+		{% endfor %}
+	
 </div>
 <hr>
 {% endblock %}
