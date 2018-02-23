@@ -46,6 +46,10 @@
 		{% endfor %}
 	</div>
 </div>
+<div class="row">
+	{% load compute_rating %}
+	<p>{% items top_10_result_items top_price_result_items top_bayes_est_result_items as tally%}{{tally}}</p>
+</div>
 <!--
 <div class="row">
 	{% if figure != None %}
