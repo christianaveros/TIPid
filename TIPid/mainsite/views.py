@@ -37,7 +37,7 @@ class SearchView(View):
 			# scraping
 			search_term = request.GET.get('search_term', None)
 			item_id = scrapers(search_term)
-			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('price')
+			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id), bayes_est__gte=4).order_by('price')
 			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
 			bayes_est_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-bayes_est')
 			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
@@ -75,7 +75,7 @@ class HistoryView(View):
 			search_term = request.GET.get('search_term', None)
 
 			# top rank
-			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('price')
+			price_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id), bayes_est__gte=4).order_by('price')
 			rating_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-rating')
 			bayes_est_ordered_items = ScrapedProduct.objects.filter(item=Item.objects.filter(id=item_id)).order_by('-bayes_est')
 			method = interleaving.TeamDraft([price_ordered_items, rating_ordered_items])
