@@ -16,7 +16,7 @@ class IndexView(CreateView):
 	template_name = 'index.html'
 
 	def get(self, request, *args, **kwargs):
-		history_items = Item.objects.all().order_by('-id')[0:5]
+		history_items = Item.objects.all().order_by('-id')
 		products = []
 		for history_item in history_items:
 			products.append({'history_item': history_item, 'products': ScrapedProduct.objects.filter(item=history_item).order_by('ranking')[0:5]})
@@ -93,6 +93,7 @@ class HistoryView(View):
 				'top_10_result_items': sorted(ranked_ordered_items[:10], key=lambda Item: Item.bayes_est, reverse=True),
 				'top_price_result_items': price_ordered_items[:10],
 				'top_bayes_est_result_items': bayes_est_ordered_items[:10],
+				'all_items': bayes_est_ordered_items
 			}
 
 		except Exception as e:
