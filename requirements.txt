@@ -32,7 +32,7 @@ idna==2.6
 incremental==17.5.0
 interleaving==0.0.1
 ipaddress==1.0.18
-Jinja2==2.10
+Jinja2==2.11.3
 jsonpath-rw==1.4.0
 kombu==4.1.0
 lxml==4.1.1
