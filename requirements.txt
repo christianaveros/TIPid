@@ -16,7 +16,7 @@ cssselect==1.0.1
 cycler==0.10.0
 decorator==4.1.2
 Django==1.8
-django-celery-results==1.0.1
+django-celery-results==2.4.0
 django-dynamic-scraper==0.13.1
 djangoajax==2.4
 docutils==0.11
